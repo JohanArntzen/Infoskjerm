@@ -60,8 +60,8 @@
     });
 
     const VÆR_API_URL = "https://api.met.no/weatherapi/locationforecast/2.0/compact";
-    const BREDDEGRAD = 60; // Erstatt med ønsket breddegrad
-    const LENGDEGRAD = 11; // Erstatt med ønsket lengdegrad
+    const BREDDEGRAD = 59.9; // Erstatt med ønsket breddegrad
+    const LENGDEGRAD = 10.8; // Erstatt med ønsket lengdegrad
 
     let værData: any = null;
     let værLaster = true;
@@ -100,53 +100,72 @@
     });
 
 </script>
+
+
+
+
 <div class="background">
-    <div class="busavganger">
-        <h1>Neste Avganger</h1>
-        {#if avgangerLaster}
-            <div>Laster avganger...</div>
-        {:else if avgangerFeil}
-            <div>{avgangerFeil}</div>
-        {:else}
-            <div>
-                <h2>{stoppNavn}</h2>
-                <ul>
-                    {#each avganger as avgang}
-                        <li>
-                            Buss til {avgang.destinationDisplay.frontText}: 
-                            {new Date(avgang.expectedDepartureTime).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: false })} 
-                            ({avgang.realtime ? "Sanntid" : "Planlagt"})
-                        </li>
-                    {/each}
-                </ul>
-            </div>
-        {/if}
+    <div class="info">
+        <div class="busavganger">
+            <h1>Neste Avganger</h1>
+            {#if avgangerLaster}
+                <div>Laster avganger...</div>
+            {:else if avgangerFeil}
+                <div>{avgangerFeil}</div>
+            {:else}
+                <div>
+                    <h2>{stoppNavn}</h2>
+                    <ul>
+                        {#each avganger as avgang}
+                            <li>
+                                Buss til {avgang.destinationDisplay.frontText}: 
+                                {new Date(avgang.expectedDepartureTime).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: false })} 
+                                ({avgang.realtime ? "Sanntid" : "Planlagt"})
+                            </li>
+                        {/each}
+                    </ul>
+                </div>
+            {/if}
+        </div>
+        <div class="værmelding">
+            <h1>Værmelding</h1>
+            {#if værLaster}
+                <div>Laster værdata...</div>
+            {:else if værFeil}
+                <div>{værFeil}</div>
+            {:else}
+                <div>
+                    <h2>Værmelding for Breddegrad {BREDDEGRAD}, Lengdegrad {LENGDEGRAD}</h2>
+                    <ul>
+                        {#each værData.properties.timeseries.slice(0, 5) as værmelding}
+                            <li>
+                                <strong>{new Date(værmelding.time).toLocaleString([], { hour: "2-digit", minute: "2-digit", hour12: false })}:</strong>
+                                Temperatur: {værmelding.data.instant.details.air_temperature}°C,
+                                Vind: {værmelding.data.instant.details.wind_speed} m/s
+                            </li>
+                        {/each}
+                    </ul>
+                </div>
+            {/if}
+        </div>
     </div>
-    <div class="værmelding">
-        <h1>Værmelding</h1>
-        {#if værLaster}
-            <div>Laster værdata...</div>
-        {:else if værFeil}
-            <div>{værFeil}</div>
-        {:else}
-            <div>
-                <h2>Værmelding for Breddegrad {BREDDEGRAD}, Lengdegrad {LENGDEGRAD}</h2>
-                <ul>
-                    {#each værData.properties.timeseries.slice(0, 5) as værmelding}
-                        <li>
-                            <strong>{new Date(værmelding.time).toLocaleString([], { hour: "2-digit", minute: "2-digit", hour12: false })}:</strong>
-                            Temperatur: {værmelding.data.instant.details.air_temperature}°C,
-                            Vind: {værmelding.data.instant.details.wind_speed} m/s
-                        </li>
-                    {/each}
-                </ul>
-            </div>
-        {/if}
-    </div>
+    <div class="fill"></div>
 </div>
+
+
+
+
 <style>
-    html {
-        height: 100%;
+    h2 {
+        font-size: 3.5rem;
+        margin: 1rem 0;
+    }
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+    li {
+        margin: 1rem 0;
     }
 
     .background {
@@ -161,19 +180,31 @@
         background-position: center;
         background-repeat: no-repeat;
         display: flex;
-        align-items: center;
-        font-size: 3rem;
         flex-direction: column;
+        font-size: 3rem;
+        font-family: futura-pt, sans-serif;
+        font-weight: 700;
+        color: white;
     }
 
-    h1 {
-        color: #333;
+    .info {
+        height: 55%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: space-around;
     }
-    ul {
-        list-style-type: none;
-        padding: 0;
+
+    .fill {
+        height: 45%;
+        width: 100%;
     }
-    li {
-        margin: 10px 0;
+
+    .busavganger, .værmelding {
+        background-color: rgba(0, 0, 0, 0.5);
+        border-radius: 8rem;
+        width: 70%;
+        padding: 1rem 6rem;
     }
 </style>
