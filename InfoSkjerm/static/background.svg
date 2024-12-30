@@ -11,14 +11,6 @@
     </clipPath>
   </defs>
   <rect id="Rectangle_1" data-name="Rectangle 1" width="2160" height="3431" fill="#b9e1ff"/>
-  <g id="Rectangle_6" data-name="Rectangle 6" transform="translate(193 1149)" stroke="#707070" stroke-width="1" opacity="0.495">
-    <rect width="1775" height="722" rx="159" stroke="none"/>
-    <rect x="0.5" y="0.5" width="1774" height="721" rx="158.5" fill="none"/>
-  </g>
-  <g id="Rectangle_7" data-name="Rectangle 7" transform="translate(188 182)" stroke="#707070" stroke-width="1" opacity="0.495">
-    <rect width="1775" height="722" rx="159" stroke="none"/>
-    <rect x="0.5" y="0.5" width="1774" height="721" rx="158.5" fill="none"/>
-  </g>
   <path id="Path_15" data-name="Path 15" d="M0,0H2160V98.178H0Z" transform="translate(0 3332.822)" fill="#7dc973"/>
   <path id="Path_1" data-name="Path 1" d="M0,0H2160V316H0Z" transform="translate(0 3524)" fill="#171c21"/>
   <g id="Path_2" data-name="Path 2" transform="translate(0 3425.822)" fill="#a0a4a7">
