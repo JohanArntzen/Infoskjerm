@@ -100,52 +100,72 @@
     });
 
 </script>
-
-<h1>Neste Avganger</h1>
-{#if avgangerLaster}
-    <div>Laster avganger...</div>
-{:else if avgangerFeil}
-    <div>{avgangerFeil}</div>
-{:else}
-    <div>
-        <h2>{stoppNavn}</h2>
-        <ul>
-            {#each avganger as avgang}
-                <li>
-                    Buss til {avgang.destinationDisplay.frontText}: 
-                    {new Date(avgang.expectedDepartureTime).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: false })} 
-                    ({avgang.realtime ? "Sanntid" : "Planlagt"})
-                </li>
-            {/each}
-        </ul>
+<div class="background">
+    <div class="busavganger">
+        <h1>Neste Avganger</h1>
+        {#if avgangerLaster}
+            <div>Laster avganger...</div>
+        {:else if avgangerFeil}
+            <div>{avgangerFeil}</div>
+        {:else}
+            <div>
+                <h2>{stoppNavn}</h2>
+                <ul>
+                    {#each avganger as avgang}
+                        <li>
+                            Buss til {avgang.destinationDisplay.frontText}: 
+                            {new Date(avgang.expectedDepartureTime).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hour12: false })} 
+                            ({avgang.realtime ? "Sanntid" : "Planlagt"})
+                        </li>
+                    {/each}
+                </ul>
+            </div>
+        {/if}
     </div>
-{/if}
-
-<h1>Værmelding</h1>
-{#if værLaster}
-    <div>Laster værdata...</div>
-{:else if værFeil}
-    <div>{værFeil}</div>
-{:else}
-    <div>
-        <h2>Værmelding for Breddegrad {BREDDEGRAD}, Lengdegrad {LENGDEGRAD}</h2>
-        <ul>
-            {#each værData.properties.timeseries.slice(0, 5) as værmelding}
-                <li>
-                    <strong>{new Date(værmelding.time).toLocaleString([], { hour: "2-digit", minute: "2-digit", hour12: false })}:</strong>
-                    Temperatur: {værmelding.data.instant.details.air_temperature}°C,
-                    Vind: {værmelding.data.instant.details.wind_speed} m/s
-                </li>
-            {/each}
-        </ul>
+    <div class="værmelding">
+        <h1>Værmelding</h1>
+        {#if værLaster}
+            <div>Laster værdata...</div>
+        {:else if værFeil}
+            <div>{værFeil}</div>
+        {:else}
+            <div>
+                <h2>Værmelding for Breddegrad {BREDDEGRAD}, Lengdegrad {LENGDEGRAD}</h2>
+                <ul>
+                    {#each værData.properties.timeseries.slice(0, 5) as værmelding}
+                        <li>
+                            <strong>{new Date(værmelding.time).toLocaleString([], { hour: "2-digit", minute: "2-digit", hour12: false })}:</strong>
+                            Temperatur: {værmelding.data.instant.details.air_temperature}°C,
+                            Vind: {værmelding.data.instant.details.wind_speed} m/s
+                        </li>
+                    {/each}
+                </ul>
+            </div>
+        {/if}
     </div>
-{/if}
-
+</div>
 <style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 20px;
+    html {
+        height: 100%;
     }
+
+    .background {
+        height: 3840px;
+        width: 2160px;
+        margin: 0;
+        left: 0;
+        top: 0;
+        position: fixed;
+        background-image: url('/background.svg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        display: flex;
+        align-items: center;
+        font-size: 3rem;
+        flex-direction: column;
+    }
+
     h1 {
         color: #333;
     }
